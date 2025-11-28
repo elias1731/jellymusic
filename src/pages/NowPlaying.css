@@ -667,8 +667,16 @@
         margin-top: 20px;
     }
 
-    .now-playing > .ui > .playing-footer {
+    .now-playing > .ui > .playing-content {
         margin-bottom: 34px;
+    }
+
+    .now-playing > .ui > .playing-content > .playing-progress {
+        margin-bottom: 34px;
+    }
+
+    .now-playing > .ui > .playing-footer {
+        margin-bottom: 32px;
     }
 }
 
