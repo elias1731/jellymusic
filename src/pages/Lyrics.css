@@ -32,6 +32,10 @@
     color: var(--brand-color);
 }
 
+.lyrics-page.synced .lyric-word.active {
+    filter: brightness(0.6);
+}
+
 .lyrics-page.synced > .lyrics-line:hover {
     background-color: var(--bg-color-secondary);
 }
