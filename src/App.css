@@ -177,6 +177,7 @@ html.light {
     --error-background: #fff0f0;
     --error-background-hover: #ffe4e4;
     --brand-color: #947bee;
+    --brand-color-secondary: #8a49f3;
     --btn-brand-color: #b282e9;
     --btn-brand-color-hover: #9470e9;
     --btn-brand-color-disabled: #caa5f0;
@@ -219,6 +220,7 @@ html.dark {
     --error-background: #220f0c;
     --error-background-hover: #301815;
     --brand-color: #a381f3;
+    --brand-color-secondary: #b997f0;
     --btn-brand-color: #834ec0;
     --btn-brand-color-hover: #9e53f3;
     --btn-brand-color-disabled: #b487e7;
