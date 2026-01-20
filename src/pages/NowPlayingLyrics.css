@@ -192,6 +192,10 @@
     color: var(--playing-font-color);
 }
 
+.now-playing-lyrics > .ui > .playing-content > .lyrics-page.synced:has(.lyric-word) > .lyrics-line.active {
+    color: var(--playing-font-color-active);
+}
+
 .now-playing-lyrics > .ui > .playing-content > .lyrics-page.synced > .lyrics-line.active {
     color: var(--brand-color);
 }
@@ -369,7 +373,8 @@
     width: 100%;
     height: 100%;
     border-radius: 8px;
-    background: linear-gradient(var(--playing-bg-color-quaternary), var(--playing-bg-color-quaternary)) no-repeat 0 /
+    background:
+        linear-gradient(var(--playing-bg-color-quaternary), var(--playing-bg-color-quaternary)) no-repeat 0 /
             var(--progress-width) 100%,
         linear-gradient(var(--playing-bg-color-tertiary), var(--playing-bg-color-tertiary)) no-repeat 0 /
             var(--buffered-width) 100%,
@@ -389,7 +394,8 @@
     width: 100%;
     height: 100%;
     border-radius: 8px;
-    background: linear-gradient(var(--playing-bg-color-quaternary), var(--playing-bg-color-quaternary)) no-repeat 0 /
+    background:
+        linear-gradient(var(--playing-bg-color-quaternary), var(--playing-bg-color-quaternary)) no-repeat 0 /
             var(--progress-width) 100%,
         linear-gradient(var(--playing-bg-color-tertiary), var(--playing-bg-color-tertiary)) no-repeat 0 /
             var(--buffered-width) 100%,
@@ -514,7 +520,9 @@
 .now-playing-lyrics > .ui > .playing-footer > .wrapper > .inner > .playing-controls > .primary > .container > .play {
     position: absolute;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide play button when a track is playing */
@@ -569,7 +577,9 @@
     opacity: 0;
     visibility: hidden;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show pause button when a track is playing */
@@ -723,7 +733,9 @@
         opacity: 0;
         visibility: hidden;
         background-color: var(--bg-color-dimmer);
-        transition: opacity 0.2s ease, visibility 0.2s ease;
+        transition:
+            opacity 0.2s ease,
+            visibility 0.2s ease;
     }
 
     .music-app:has(.now-playing-lyrics):has(.dropdown.active) > .now-playing-dimmer {

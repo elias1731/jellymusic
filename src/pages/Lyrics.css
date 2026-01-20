@@ -25,19 +25,17 @@
     color: var(--font-color-tertiary);
     cursor: pointer;
     border-radius: 8px;
-    transition: color 0.6s ease-out, background-color 0.2s ease-out;
+    transition:
+        color 0.6s ease-out,
+        background-color 0.2s ease-out;
 }
 
 .lyrics-page.synced > .lyrics-line.active {
     color: var(--brand-color);
 }
 
-.lyrics-page.synced .lyric-word {
-    transition: color 0.3s ease-out;
-}
-
-.lyrics-page.synced .lyric-word.active {
-    color: var(--brand-color-secondary);
+.lyrics-page.synced:has(.lyric-word) > .lyrics-line.active {
+    color: var(--font-color-secondary);
 }
 
 .lyrics-page.synced > .lyrics-line:hover {
@@ -110,7 +108,9 @@
     opacity: 0.5;
     transform-origin: left;
     transform: scale(0.96);
-    transition: transform 0.2s ease-out, opacity 0.6s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        opacity 0.6s ease-out;
 }
 
 .lyrics-page.synced > .lyrics-line:has(.text.centered:empty)::before {
@@ -127,7 +127,9 @@
     opacity: 0.5;
     transform-origin: left;
     transform: scale(0.96);
-    transition: transform 0.2s ease-out, opacity 0.6s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        opacity 0.6s ease-out;
 }
 
 .lyrics-page.synced > .lyrics-line:has(.numbers ~ .text.centered:empty)::after {
@@ -151,6 +153,21 @@
     margin-top: 1px;
 }
 
+.lyrics-page.synced > .lyrics-line > .numbers {
+    opacity: 0.5;
+    transition:
+        color 0.2s ease-out,
+        opacity 0.6s ease-out;
+}
+
+.lyrics-page.synced > .lyrics-line.active > .numbers {
+    opacity: 1;
+}
+
+.lyrics-page.synced:has(.lyric-word) > .lyrics-line.active > .numbers {
+    color: var(--brand-color);
+}
+
 /* Align numbers and empty line when text is empty */
 .lyrics-page > .lyrics-line:has(.numbers ~ .text:empty) > .numbers {
     min-height: 20px;
@@ -169,7 +186,9 @@
     opacity: 0.5;
     transform-origin: left;
     transform: scale(0.96);
-    transition: transform 0.2s ease-out, opacity 0.6s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        opacity 0.6s ease-out;
 }
 
 .lyrics-page.synced > .lyrics-line > .text.centered {
@@ -181,13 +200,30 @@
     transform: scale(1);
 }
 
-.lyrics-page.synced > .lyrics-line > .numbers {
-    opacity: 0.5;
-    transition: opacity 0.6s ease-out;
+/* Word by word lyric related */
+.lyrics-page.synced > .lyrics-line > .text:has(> .lyric-word) {
+    opacity: 1;
 }
 
-.lyrics-page.synced > .lyrics-line.active > .numbers {
+.lyrics-page.synced > .lyrics-line.active > .text:has(> .lyric-word.active) {
     opacity: 1;
+}
+
+.lyrics-page.synced > .lyrics-line > .text > .lyric-word {
+    opacity: 0.5;
+    transition: color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition:
+        color 0.2s ease-out,
+        opacity 0.2s ease-out;
+}
+
+.lyrics-page.synced > .lyrics-line.active > .text > .lyric-word {
+    opacity: 0.7;
+}
+
+.lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.active {
+    opacity: 1;
+    color: var(--brand-color);
 }
 
 /* Responsive */
