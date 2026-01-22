@@ -141,12 +141,6 @@
     transform: scale(1);
 }
 
-/*
-.lyrics-page .lyrics-line > * {
-    align-content: center;
-}
-*/
-
 .lyrics-page > .lyrics-line > .numbers {
     font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
@@ -214,9 +208,7 @@
     display: inline;
     position: relative;
 
-    /* progress 0..1 written by rAF */
     --p: 0;
-
     --base-alpha: 0.5;
     --fill-alpha: 1;
 
@@ -245,26 +237,28 @@
     -webkit-text-fill-color: transparent;
 }
 
-/* Past words in current line */
-.lyrics-page.synced > .lyrics-line:not(.active) > .text > .lyric-word.active {
-    opacity: 0.7;
-    background-color: var(--brand-color);
-}
-
 /* Active line words */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word {
     --base-alpha: 0.7;
 }
 
-/* Past words in current line */
+/* Past words in active line */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.active {
     --p: 1;
     --base-alpha: 1;
+    --fill-alpha: 1;
 }
 
-/* Current word just uses the animated --p (set by rAF) */
+/* Current word uses animated --p (set by rAF) */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.current {
     --base-alpha: 0.7;
+}
+
+/* Past words in non-active lines */
+.lyrics-page.synced > .lyrics-line:not(.active) > .text > .lyric-word.active {
+    --p: 1;
+    --base-alpha: 0.7;
+    --fill-alpha: 0.35;
 }
 
 /* Responsive */
