@@ -14,6 +14,14 @@ export const Lyrics = () => {
 
     const [currentTimeMs, setCurrentTimeMs] = useState<number | null>(null)
     const lineRefs = useRef<Array<HTMLDivElement | null>>([])
+    const rafId = useRef<number | null>(null)
+
+    const prevWordElsRef = useRef<HTMLElement[]>([])
+    const activeWordElsRef = useRef<HTMLElement[]>([])
+    const activeWordCuesRef = useRef<LyricLineCue[]>([])
+    const lastActiveLineRef = useRef<number>(-1)
+
+    const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
     const location = useLocation()
 
@@ -112,6 +120,12 @@ export const Lyrics = () => {
         clearNextLineTimeout()
     }, [audio, lyrics])
 
+    const resetAllWordProgress = useCallback(() => {
+        document.querySelectorAll<HTMLElement>('.lyric-word').forEach(el => {
+            el.style.setProperty('--p', '0')
+        })
+    }, [])
+
     useEffect(() => {
         if (!audio || !lyrics) return
 
@@ -120,18 +134,31 @@ export const Lyrics = () => {
                 setCurrentTimeMs(null)
                 return
             }
+            setCurrentTimeMs(audio.currentTime * 1000 || 0)
+        }
 
-            setCurrentTimeMs(audio?.currentTime * 1000 || 0)
+        const onSeeking = () => {
+            resetAllWordProgress()
+            updateCurrentTime()
+        }
+
+        const onSeeked = () => {
+            resetAllWordProgress()
+            updateCurrentTime()
         }
 
         audio.addEventListener('timeupdate', updateCurrentTime)
         audio.addEventListener('playing', updateCurrentTime)
+        audio.addEventListener('seeking', onSeeking)
+        audio.addEventListener('seeked', onSeeked)
 
         return () => {
             audio.removeEventListener('timeupdate', updateCurrentTime)
             audio.removeEventListener('playing', updateCurrentTime)
+            audio.removeEventListener('seeking', onSeeking)
+            audio.removeEventListener('seeked', onSeeked)
         }
-    }, [audio, lyrics, currentLineIndex])
+    }, [audio, lyrics, currentLineIndex, resetAllWordProgress])
 
     const scrollToActiveLine = useCallback(
         (line: number, behavior: ScrollBehavior = 'smooth') => {
@@ -174,17 +201,29 @@ export const Lyrics = () => {
             const cues = line.Cues ?? []
             if (cues.length === 0) return line.Text
 
-            return cues.map((cue, i) => (
-                <span
-                    key={`cue-${line.Start}-${i}`}
-                    className={'lyric-word' + (currentTimeMs && cue.Start / 10000 <= currentTimeMs ? ' active' : '')}
-                    data-start={cue.Start ?? undefined}
-                    data-end={cue.End ?? undefined}
-                >
-                    {line.Text?.slice(cue.Position, cue.EndPosition)}
-                    {i < cues.length - 1 ? ' ' : ''}
-                </span>
-            ))
+            return cues.map((cue, i) => {
+                const chunk = line.Text?.slice(cue.Position, cue.EndPosition) ?? ''
+
+                const startMs = cue.Start / 10000
+                const endMs = cue.End / 10000
+
+                const isPast = currentTimeMs != null && endMs <= currentTimeMs
+                const isCurrent = currentTimeMs != null && startMs <= currentTimeMs && currentTimeMs < endMs
+
+                return (
+                    <span
+                        key={`cue-${line.Start}-${i}`}
+                        className={'lyric-word' + (isPast ? ' active' : '') + (isCurrent ? ' current' : '')}
+                        data-start={startMs}
+                        data-end={endMs}
+                        data-text={chunk}
+                    >
+                        {chunk.startsWith(' ') ? '\u00A0' : ''}
+                        {chunk}
+                        {chunk.endsWith(' ') ? '\u00A0' : ''}
+                    </span>
+                )
+            })
         },
         [isWordByWord, currentTimeMs]
     )
@@ -223,6 +262,92 @@ export const Lyrics = () => {
         currentLineIndex,
         isSynced,
     ])
+
+    useEffect(() => {
+        if (!lyrics) return
+        if (!isWordByWord) return
+
+        if (currentLineIndex === lastActiveLineRef.current) return
+        lastActiveLineRef.current = currentLineIndex
+
+        // Reset previous cached line so it does not stay filled when it becomes future
+        for (const el of prevWordElsRef.current) el.style.setProperty('--p', '0')
+        prevWordElsRef.current = []
+
+        const lineEl = lineRefs.current[currentLineIndex]
+        if (!lineEl) {
+            activeWordElsRef.current = []
+            activeWordCuesRef.current = []
+            return
+        }
+
+        const wordEls = Array.from(lineEl.querySelectorAll<HTMLElement>('.lyric-word'))
+        activeWordElsRef.current = wordEls
+        prevWordElsRef.current = wordEls
+
+        const cues: LyricLineCue[] = wordEls.map(el => {
+            const start = Number(el.dataset.start ?? 'NaN')
+            const end = Number(el.dataset.end ?? 'NaN')
+            return { Position: 0, EndPosition: 0, Start: start, End: end }
+        })
+        activeWordCuesRef.current = cues
+
+        // Reset fill vars for new line
+        for (const el of wordEls) el.style.setProperty('--p', '0')
+    }, [currentLineIndex, lyrics, isWordByWord])
+
+    useEffect(() => {
+        if (!audio) return
+
+        const stop = () => {
+            if (rafId.current != null) {
+                cancelAnimationFrame(rafId.current)
+                rafId.current = null
+            }
+        }
+
+        const frame = () => {
+            // If paused or no lyrics, do not process
+            if (!playback.isPlaying) {
+                stop()
+                return
+            }
+
+            const tMs = audio.currentTime * 1000
+
+            if (isWordByWord) {
+                const els = activeWordElsRef.current
+                const cues = activeWordCuesRef.current
+
+                if (els.length === cues.length && els.length > 0) {
+                    for (let i = 0; i < els.length; i++) {
+                        const s = cues[i].Start
+                        const e = cues[i].End
+
+                        // if missing end
+                        if (!Number.isFinite(s) || !Number.isFinite(e) || e <= s) {
+                            // fallback: if started, mark as filled
+                            const p = tMs >= s ? 1 : 0
+                            els[i].style.setProperty('--p', String(p))
+                            continue
+                        }
+
+                        const p = clamp01((tMs - s) / (e - s))
+                        els[i].style.setProperty('--p', p.toFixed(4))
+                    }
+                }
+            }
+
+            rafId.current = requestAnimationFrame(frame)
+        }
+
+        if (playback.isPlaying) {
+            // Start loop
+            rafId.current = requestAnimationFrame(frame)
+        }
+
+        return stop
+    }, [audio, playback.isPlaying, isWordByWord, lyrics, currentLineIndex])
 
     // Scroll on line change
     useEffect(() => {
