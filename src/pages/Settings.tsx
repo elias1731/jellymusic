@@ -7,6 +7,7 @@ import { useDownloadContext } from '../context/DownloadContext/DownloadContext'
 import { useJellyfinContext } from '../context/JellyfinContext/JellyfinContext'
 import { usePlaybackContext } from '../context/PlaybackContext/PlaybackContext'
 import { useThemeContext } from '../context/ThemeContext/ThemeContext'
+import { useUpdateChecker } from '../hooks/useUpdateChecker'
 import { persister } from '../queryClient'
 import { formatFileSize } from '../utils/formatFileSize'
 import './Settings.css'
@@ -28,6 +29,7 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
     const { storageStats, refreshStorageStats, queueCount, clearQueue } = useDownloadContext()
 
     const [clearing, setClearing] = useState(false)
+    const { latestRelease, updateStatus } = useUpdateChecker(playback.checkForUpdates)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -451,6 +453,61 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
                         </label>
                     </div>
                 </div>
+            </div>
+            <div className="section updates">
+                <div className="title">Updates</div>
+                <div className="inner row">
+                    <div className="container">
+                        <div className="desc">
+                            <div className="subtitle">Check for updates</div>
+                            <div className="subdesc">
+                                Automatically check for new versions when opening settings once a day
+                            </div>
+                        </div>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={playback.checkForUpdates}
+                                onChange={e => playback.setCheckForUpdates(e.target.checked)}
+                            ></input>
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                {playback.checkForUpdates && updateStatus && (
+                    <div className="inner row update-status">
+                        {updateStatus === 'checking' && (
+                            <div className="container">
+                                <div className="subdesc">Checking for updates...</div>
+                            </div>
+                        )}
+                        {updateStatus === 'current' && (
+                            <div className="container">
+                                <div className="subdesc">✓ You're running the latest version</div>
+                            </div>
+                        )}
+                        {updateStatus === 'available' && latestRelease && (
+                            <div className="container">
+                                <div className="subdesc">
+                                    🎉 Update available: {latestRelease.tag_name} •{' '}
+                                    <a
+                                        href={latestRelease.html_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="textlink"
+                                    >
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        )}
+                        {updateStatus === 'error' && (
+                            <div className="container">
+                                <div className="subdesc">⚠ Unable to check for updates</div>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
             <div className="section about">
                 <div className="title">About</div>
