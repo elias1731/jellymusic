@@ -141,12 +141,6 @@
     transform: scale(1);
 }
 
-/*
-.lyrics-page .lyrics-line > * {
-    align-content: center;
-}
-*/
-
 .lyrics-page > .lyrics-line > .numbers {
     font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
@@ -209,21 +203,62 @@
     opacity: 1;
 }
 
+/* Base karaoke word */
 .lyrics-page.synced > .lyrics-line > .text > .lyric-word {
-    opacity: 0.5;
-    transition: color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-    transition:
-        color 0.2s ease-out,
-        opacity 0.2s ease-out;
+    display: inline;
+    position: relative;
+
+    --p: 0;
+    --base-alpha: 0.5;
+    --fill-alpha: 1;
+
+    background-image:
+        linear-gradient(
+            color-mix(in srgb, var(--brand-color) calc(var(--fill-alpha) * 100%), transparent),
+            color-mix(in srgb, var(--brand-color) calc(var(--fill-alpha) * 100%), transparent)
+        ),
+        linear-gradient(
+            color-mix(in srgb, var(--font-color-tertiary) calc(var(--base-alpha) * 100%), transparent),
+            color-mix(in srgb, var(--font-color-tertiary) calc(var(--base-alpha) * 100%), transparent)
+        );
+
+    background-repeat: no-repeat;
+    background-position:
+        left top,
+        left top;
+    background-size:
+        calc(var(--p) * 100%) 100%,
+        100% 100%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+    -webkit-text-fill-color: transparent;
 }
 
+/* Active line words */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word {
-    opacity: 0.7;
+    --base-alpha: 0.7;
 }
 
+/* Past words in active line */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.active {
-    opacity: 1;
-    color: var(--brand-color);
+    --p: 1;
+    --base-alpha: 1;
+    --fill-alpha: 1;
+}
+
+/* Current word uses animated --p (set by rAF) */
+.lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.current {
+    --base-alpha: 0.7;
+}
+
+/* Past words in non-active lines */
+.lyrics-page.synced > .lyrics-line:not(.active) > .text > .lyric-word.active {
+    --p: 1;
+    --base-alpha: 0.7;
+    --fill-alpha: 0.35;
 }
 
 /* Responsive */
