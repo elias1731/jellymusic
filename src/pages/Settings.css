@@ -534,6 +534,7 @@
 
 .settings-page > .section.updates > .inner {
     width: 100%;
+    margin-top: 8px;
 }
 
 .settings-page > .section.updates > .inner > .container {
@@ -543,12 +544,49 @@
     gap: 8px;
 }
 
-.settings-page > .section.updates > .inner.update-status {
-    margin-top: 8px;
+.settings-page > .section.updates > .inner > .container > .subdesc {
+    font-size: 0.725rem;
+    font-weight: 500;
 }
 
-.settings-page > .section.updates > .inner.update-status > .container > .subdesc {
-    font-size: 0.725rem;
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon {
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: -3px;
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon.success {
+    margin-right: 6px;
+    color: var(--success-color);
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon.error {
+    color: var(--font-color-error-light);
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon.available {
+    color: var(--brand-color);
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon.checking {
+    color: var(--brand-color);
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .icon.checking > svg {
+    animation: iconCheckingSpin 1.4s linear infinite;
+}
+
+@keyframes iconCheckingSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.settings-page > .section.updates > .inner > .container > .subdesc > .text > .divider {
+    font-weight: 700;
 }
 
 /* Interface */

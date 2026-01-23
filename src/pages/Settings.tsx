@@ -1,4 +1,4 @@
-import { CheckCircleFillIcon } from '@primer/octicons-react'
+import { BellFillIcon, CheckCircleFillIcon, CheckIcon, CloudOfflineIcon, SyncIcon } from '@primer/octicons-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -461,7 +461,7 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
                         <div className="desc">
                             <div className="subtitle">Check for updates</div>
                             <div className="subdesc">
-                                Automatically check for new versions when opening settings once a day
+                                Automatically check for new versions when opening settings (once daily)
                             </div>
                         </div>
                         <label className="switch">
@@ -478,32 +478,52 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
                     <div className="inner row update-status">
                         {updateStatus === 'checking' && (
                             <div className="container">
-                                <div className="subdesc">Checking for updates...</div>
+                                <div className="subdesc">
+                                    <div className="icon checking">
+                                        <SyncIcon size={14} />
+                                    </div>
+                                    <span className="text">Checking for updates...</span>
+                                </div>
                             </div>
                         )}
                         {updateStatus === 'current' && (
                             <div className="container">
-                                <div className="subdesc">✓ You're running the latest version</div>
+                                <div className="subdesc">
+                                    <div className="icon success">
+                                        <CheckIcon size={16} />
+                                    </div>
+                                    <span className="text">You're up to date (v{__VERSION__})</span>
+                                </div>
                             </div>
                         )}
                         {updateStatus === 'available' && latestRelease && (
                             <div className="container">
                                 <div className="subdesc">
-                                    🎉 Update available: {latestRelease.tag_name} •{' '}
-                                    <a
-                                        href={latestRelease.html_url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="textlink"
-                                    >
-                                        Download
-                                    </a>
+                                    <div className="icon available">
+                                        <BellFillIcon size={14} />
+                                    </div>
+                                    <span className="text">
+                                        Update available: {latestRelease.tag_name} <span className="divider">-</span>{' '}
+                                        <a
+                                            href={latestRelease.html_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="textlink"
+                                        >
+                                            Download
+                                        </a>
+                                    </span>
                                 </div>
                             </div>
                         )}
                         {updateStatus === 'error' && (
                             <div className="container">
-                                <div className="subdesc">⚠ Unable to check for updates</div>
+                                <div className="subdesc">
+                                    <div className="icon error">
+                                        <CloudOfflineIcon size={14} />
+                                    </div>
+                                    <span className="text">Unable to check for updates</span>
+                                </div>
                             </div>
                         )}
                     </div>
