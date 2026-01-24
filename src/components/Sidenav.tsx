@@ -251,10 +251,10 @@ export const Sidenav = (props: { username: string }) => {
                                                             item.Type === BaseItemKind.MusicArtist
                                                                 ? 'artist'
                                                                 : item.Type === BaseItemKind.MusicAlbum
-                                                                ? 'album'
-                                                                : item.Type === BaseItemKind.MusicGenre
-                                                                ? 'genre'
-                                                                : item.Type?.toLowerCase()
+                                                                  ? 'album'
+                                                                  : item.Type === BaseItemKind.MusicGenre
+                                                                    ? 'genre'
+                                                                    : item.Type?.toLowerCase()
                                                         }/${
                                                             item.Type === BaseItemKind.MusicGenre
                                                                 ? encodeURIComponent(item.Name)
@@ -397,8 +397,16 @@ export const Sidenav = (props: { username: string }) => {
                                 </NavLink>
                             )}
 
-                            <NavLink to="/settings" className="icon settings" onClick={closeSidenav} title="Settings">
+                            <NavLink
+                                to="/settings"
+                                className="icon settings"
+                                onClick={closeSidenav}
+                                title="Settings - Update available!"
+                            >
                                 <GearIcon size={16} />
+                                <div className="update-checker">
+                                    <div className="dot" />
+                                </div>
                             </NavLink>
                         </div>
                     </div>
