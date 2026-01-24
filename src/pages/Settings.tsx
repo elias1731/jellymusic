@@ -460,9 +460,7 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
                     <div className="container">
                         <div className="desc">
                             <div className="subtitle">Check for updates</div>
-                            <div className="subdesc">
-                                Automatically check for new versions when opening settings (once daily)
-                            </div>
+                            <div className="subdesc">Automatically check for new versions (once daily)</div>
                         </div>
                         <label className="switch">
                             <input

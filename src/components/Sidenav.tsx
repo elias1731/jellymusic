@@ -12,6 +12,7 @@ import { useScrollContext } from '../context/ScrollContext/ScrollContext'
 import { useSidenavContext } from '../context/SidenavContext/SidenavContext'
 import { useJellyfinPlaylistsList } from '../hooks/Jellyfin/useJellyfinPlaylistsList'
 import { useJellyfinSearch } from '../hooks/Jellyfin/useJellyfinSearch'
+import { useUpdateChecker } from '../hooks/useUpdateChecker'
 import { formatFileSize } from '../utils/formatFileSize'
 import { InlineLoader } from './InlineLoader'
 import './Sidenav.css'
@@ -30,6 +31,7 @@ import {
 export const Sidenav = (props: { username: string }) => {
     const playback = usePlaybackContext()
     const navigate = useNavigate()
+    const { updateStatus } = useUpdateChecker(playback.checkForUpdates)
     const searchInputRef = useRef<HTMLInputElement>(null)
     const { showSidenav, closeSidenav } = useSidenavContext()
 
@@ -401,12 +403,14 @@ export const Sidenav = (props: { username: string }) => {
                                 to="/settings"
                                 className="icon settings"
                                 onClick={closeSidenav}
-                                title="Settings - Update available!"
+                                title={updateStatus === 'available' ? 'Settings - Update available!' : 'Settings'}
                             >
                                 <GearIcon size={16} />
-                                <div className="update-checker">
-                                    <div className="dot" />
-                                </div>
+                                {updateStatus === 'available' && (
+                                    <div className="update-checker">
+                                        <div className="dot" />
+                                    </div>
+                                )}
                             </NavLink>
                         </div>
                     </div>
