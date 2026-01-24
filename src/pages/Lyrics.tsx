@@ -1,9 +1,9 @@
+import { LyricLine } from '@jellyfin/sdk/lib/generated-client'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Loader } from '../components/Loader'
 import { usePlaybackContext } from '../context/PlaybackContext/PlaybackContext'
 import './Lyrics.css'
-import { LyricLine } from '@jellyfin/sdk/lib/generated-client'
 
 type LyricLineCue = { Position: number; EndPosition: number; Start: number; End: number }
 type LyricLineData = LyricLine & { Cues?: LyricLineCue[] }
@@ -171,8 +171,8 @@ export const Lyrics = () => {
 
             return cues.map((cue, i) => {
                 const chunk = line.Text?.slice(cue.Position, cue.EndPosition) ?? ''
-                const startMs = cue.Start / 10000
-                const endMs = cue.End / 10000
+                const startMs = (cue.Start || 0) / 10000
+                const endMs = (cue.End || 0) / 10000
 
                 const isPast = endMs <= tMs
                 const isCurrent = startMs <= tMs && tMs < endMs
