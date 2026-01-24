@@ -165,8 +165,8 @@ const useInitialState = () => {
             return track?.type === 'song'
                 ? { type: 'song', url: URL.createObjectURL(track.blob) }
                 : track?.type === 'm3u8'
-                ? { type: 'm3u8', url: URL.createObjectURL(track.playlist) }
-                : undefined
+                  ? { type: 'm3u8', url: URL.createObjectURL(track.playlist) }
+                  : undefined
         },
         [getTrack]
     )

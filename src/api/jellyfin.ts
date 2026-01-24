@@ -21,7 +21,10 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { syncDownloads, syncDownloadsById, unsyncDownloadsById } from '../context/DownloadContext/DownloadContext'
 
 export class ApiError extends Error {
-    constructor(message: string, public response: Response) {
+    constructor(
+        message: string,
+        public response: Response
+    ) {
         super(message)
         this.response = response
     }

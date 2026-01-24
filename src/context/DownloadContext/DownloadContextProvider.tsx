@@ -127,8 +127,8 @@ const useInitialState = () => {
                     item.offlineState === 'downloading'
                         ? undefined
                         : item.offlineState === 'deleting'
-                        ? 'downloaded'
-                        : item.offlineState,
+                          ? 'downloaded'
+                          : item.offlineState,
             }))
         })
 

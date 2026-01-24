@@ -39,8 +39,8 @@ export const NowPlayingLyrics = () => {
                     playback.isPlaying
                         ? 'now-playing-lyrics playing'
                         : playback.currentTrack
-                        ? 'now-playing-lyrics paused'
-                        : 'now-playing-lyrics'
+                          ? 'now-playing-lyrics paused'
+                          : 'now-playing-lyrics'
                 }
             >
                 <div className="ui">
@@ -136,12 +136,12 @@ export const NowPlayingLyrics = () => {
                                                 {bitrate === 320000
                                                     ? 'High'
                                                     : bitrate === 256000
-                                                    ? 'Medium'
-                                                    : bitrate === 192000
-                                                    ? 'Low'
-                                                    : bitrate === 128000
-                                                    ? 'Minimal'
-                                                    : 'Source'}
+                                                      ? 'Medium'
+                                                      : bitrate === 192000
+                                                        ? 'Low'
+                                                        : bitrate === 128000
+                                                          ? 'Minimal'
+                                                          : 'Source'}
                                             </div>
                                             <div className="divider" />
                                             <div className="bitrate">

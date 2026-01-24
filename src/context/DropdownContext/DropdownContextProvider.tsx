@@ -812,8 +812,8 @@ const useInitialState = () => {
                             const containerItem = context.customContainer
                                 ? await api.createCustomContainerMediaItem(context.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
-                                ? undefined
-                                : context.item
+                                  ? undefined
+                                  : context.item
                             removeFromDownloads(await expandItems(context.item, context.customContainer), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
@@ -833,8 +833,8 @@ const useInitialState = () => {
                             const containerItem = context.customContainer
                                 ? await api.createCustomContainerMediaItem(context.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
-                                ? undefined
-                                : context.item
+                                  ? undefined
+                                  : context.item
                             addToDownloads(await expandItems(context.item, context.customContainer), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
@@ -1108,14 +1108,14 @@ const useInitialState = () => {
                                     context.item.Type === BaseItemKind.Audio
                                         ? 'track'
                                         : context.item.Type === BaseItemKind.MusicAlbum
-                                        ? 'album'
-                                        : context.item.Type === BaseItemKind.MusicArtist
-                                        ? 'artist'
-                                        : context.item.Type === BaseItemKind.Playlist
-                                        ? 'playlist'
-                                        : context.item.Type === BaseItemKind.MusicGenre
-                                        ? 'genre'
-                                        : 'unknown'
+                                          ? 'album'
+                                          : context.item.Type === BaseItemKind.MusicArtist
+                                            ? 'artist'
+                                            : context.item.Type === BaseItemKind.Playlist
+                                              ? 'playlist'
+                                              : context.item.Type === BaseItemKind.MusicGenre
+                                                ? 'genre'
+                                                : 'unknown'
                                 }`}
                             >
                                 <Squircle
@@ -1169,12 +1169,12 @@ const useInitialState = () => {
                                                 {context.item.Type === BaseItemKind.Audio
                                                     ? context.item.Artists?.join(', ') || 'Unknown Artist'
                                                     : context.item.Type === BaseItemKind.MusicAlbum
-                                                    ? context.item.AlbumArtist || 'Unknown Artist'
-                                                    : context.item.Type === BaseItemKind.Playlist
-                                                    ? `${context.item.ChildCount || 0} Track${
-                                                          context.item.ChildCount === 1 ? '' : 's'
-                                                      }`
-                                                    : 'Unknown'}
+                                                      ? context.item.AlbumArtist || 'Unknown Artist'
+                                                      : context.item.Type === BaseItemKind.Playlist
+                                                        ? `${context.item.ChildCount || 0} Track${
+                                                              context.item.ChildCount === 1 ? '' : 's'
+                                                          }`
+                                                        : 'Unknown'}
                                             </div>
                                         )}
                                 </div>
