@@ -603,7 +603,7 @@ const useInitialState = () => {
                         >
                             <div className="dropdown-menu">
                                 <DropdownItem>
-                                    <div className="playlist-input-container">
+                                    <div className="playlist-input-container rename-item">
                                         <input
                                             value={renamePlaylistName}
                                             onChange={handleRenameInputChange}
@@ -949,7 +949,7 @@ const useInitialState = () => {
             } else if (subDropdown.type === 'rename-playlist') {
                 items = [
                     <DropdownItem key="rename-playlist-input-item">
-                        <div className="playlist-input-container">
+                        <div className="playlist-input-container rename-item-responsive">
                             <input
                                 value={renamePlaylistName}
                                 onChange={handleRenameInputChange}

@@ -73,6 +73,7 @@
     height: 1px;
     margin: 2px 8px;
     background-color: var(--border-color);
+    transition: width 0.04s ease-out;
 }
 
 .sub-dropdown > .dropdown-menu > .dropdown-item:has(.playlist-input.has-text) ~ .dropdown-separator {
@@ -166,10 +167,14 @@
     position: relative;
     flex: 1;
     width: 180px;
-    padding: 4px 14px;
-    padding-left: 4px;
+    padding: 4px 10px;
     background: transparent;
     text-overflow: ellipsis;
+}
+
+.sub-dropdown > .dropdown-menu > .dropdown-item > .playlist-input-container.rename-item > .playlist-input {
+    padding-left: 4px;
+    padding-right: 16px;
 }
 
 .sub-dropdown > .dropdown-menu > .dropdown-item > .playlist-input-container > .playlist-input::placeholder {
@@ -177,7 +182,7 @@
 }
 
 .sub-dropdown > .dropdown-menu > .dropdown-item > .playlist-input-container > .playlist-input.has-text {
-    max-width: calc(100% - 52px);
+    max-width: calc(100% - 54px);
 }
 
 .sub-dropdown
@@ -491,7 +496,15 @@
     }
 
     .dropdown > .dropdown-menu > .dropdown-item > .playlist-input-container > .playlist-input.has-text {
-        max-width: calc(100% - 62px);
+        max-width: calc(100% - 60px);
+    }
+
+    .dropdown
+        > .dropdown-menu
+        > .dropdown-item
+        > .playlist-input-container.rename-item-responsive
+        > .playlist-input.has-text {
+        max-width: calc(100% - 68px);
     }
 
     .dropdown
