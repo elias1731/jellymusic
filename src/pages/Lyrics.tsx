@@ -185,9 +185,7 @@ export const Lyrics = () => {
                         data-end={endMs}
                         data-text={chunk}
                     >
-                        {i < cues.length - 1 && chunk.startsWith(' ') ? '\u00A0' : ''}
                         {chunk}
-                        {i < cues.length - 1 && chunk.endsWith(' ') ? '\u00A0' : ''}
                     </span>
                 )
             })

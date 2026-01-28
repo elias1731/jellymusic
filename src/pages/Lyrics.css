@@ -197,6 +197,16 @@
 /* Word by word lyric related */
 .lyrics-page.synced > .lyrics-line > .text:has(> .lyric-word) {
     opacity: 1;
+    /* Extra spacing between each word */
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    column-gap: 0.475rem;
+}
+
+/* Because of flex from above */
+.lyrics-page.synced > .lyrics-line > .text.centered:has(> .lyric-word) {
+    justify-content: center;
 }
 
 .lyrics-page.synced > .lyrics-line.active > .text:has(> .lyric-word.active) {
