@@ -330,7 +330,7 @@ export const Sidenav = (props: { username: string }) => {
                             )}
                             {error && <div className="indicator error">{error}</div>}
                             {!loading && !error && playlists.length === 0 && (
-                                <div className="indicator info">No playlists found</div>
+                                <div className="indicator info">No playlists were found</div>
                             )}
                             <div className="container noSelect">
                                 {playlists.map(playlist => (

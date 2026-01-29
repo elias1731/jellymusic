@@ -743,7 +743,7 @@ const useInitialState = () => {
                         >
                             <div className="dropdown-menu">
                                 <DropdownItem>
-                                    <div className="playlist-input-container">
+                                    <div className="playlist-input-container new-item">
                                         <input
                                             value={playlistName}
                                             onChange={handleInputChange}

@@ -172,6 +172,14 @@
     text-overflow: ellipsis;
 }
 
+.sub-dropdown
+    > .dropdown-menu:not(:has(> .dropdown-separator))
+    > .dropdown-item:has(> .playlist-input-container.new-item)
+    > .playlist-input-container.new-item
+    > .playlist-input {
+    padding-left: 4px;
+}
+
 .sub-dropdown > .dropdown-menu > .dropdown-item > .playlist-input-container.rename-item > .playlist-input {
     padding-left: 4px;
     padding-right: 16px;

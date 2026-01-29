@@ -666,7 +666,7 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
 .sidenav > .sidenav_wrapper > .sidenav_content > .playlists > .indicator {
     font-size: 0.725rem;
     font-weight: 500;
-    margin: 20px 14px;
+    margin: 24px 18px;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > .playlists > .indicator.error {
