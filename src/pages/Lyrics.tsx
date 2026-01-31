@@ -180,7 +180,7 @@ export const Lyrics = () => {
                 return (
                     <span
                         key={`cue-${line.Start}-${i}`}
-                        className={'lyric-word' + (isPast ? ' active' : '') + (isCurrent ? ' current' : '')}
+                        className={'lyric-word' + (isPast ? ' active' : '') + (isCurrent ? ' current' : '') + (chunk.endsWith(' ') ? ' space' : '')}
                         data-start={startMs}
                         data-end={endMs}
                         data-text={chunk}
