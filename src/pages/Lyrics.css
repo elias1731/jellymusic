@@ -201,7 +201,6 @@
     display: flex;
     flex-wrap: wrap;
     row-gap: 2px;
-    column-gap: 0.475rem;
 }
 
 /* Because of flex from above */
@@ -262,6 +261,11 @@
 /* Current word uses animated --p (set by rAF) */
 .lyrics-page.synced > .lyrics-line.active > .text > .lyric-word.current {
     --base-alpha: 0.7;
+}
+
+/* Add extra space for spaced words */
+.lyrics-page.synced > .lyrics-line > .text > .lyric-word.space {
+    margin-right: 0.475rem;
 }
 
 /* Past words in non-active lines */
