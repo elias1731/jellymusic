@@ -32,7 +32,7 @@ export const useJellyfinSearch = (searchQuery: string) => {
                         api.searchArtists(debouncedSearchQuery, 4),
                         api.searchAlbumsDetailed(debouncedSearchQuery, 4),
                         api.searchPlaylistsDetailed(debouncedSearchQuery, 4),
-                        api.fetchSongs(debouncedSearchQuery, 6),
+                        api.fetchSongs(debouncedSearchQuery, 8),
                         api.searchGenres(debouncedSearchQuery, 4),
                     ])
 
@@ -46,7 +46,7 @@ export const useJellyfinSearch = (searchQuery: string) => {
                 return limitedResults
             } else {
                 // Use offline search when no network
-                const offlineResults = await audioStorage.searchOfflineItems(debouncedSearchQuery, 10)
+                const offlineResults = await audioStorage.searchOfflineItems(debouncedSearchQuery, 12)
                 return offlineResults
             }
         },
