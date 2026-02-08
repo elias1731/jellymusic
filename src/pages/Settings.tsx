@@ -1,4 +1,4 @@
-import { CheckCircleFillIcon } from '@primer/octicons-react'
+import { BellFillIcon, CheckCircleFillIcon, CheckIcon, CloudOfflineIcon, SyncIcon } from '@primer/octicons-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import { useDownloadContext } from '../context/DownloadContext/DownloadContext'
 import { useJellyfinContext } from '../context/JellyfinContext/JellyfinContext'
 import { usePlaybackContext } from '../context/PlaybackContext/PlaybackContext'
 import { useThemeContext } from '../context/ThemeContext/ThemeContext'
+import { useUpdateChecker } from '../hooks/useUpdateChecker'
 import { persister } from '../queryClient'
 import { formatFileSize } from '../utils/formatFileSize'
 import './Settings.css'
@@ -28,6 +29,7 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
     const { storageStats, refreshStorageStats, queueCount, clearQueue } = useDownloadContext()
 
     const [clearing, setClearing] = useState(false)
+    const { latestRelease, updateStatus } = useUpdateChecker(playback.checkForUpdates)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -451,6 +453,79 @@ export const Settings = ({ onLogout }: { onLogout: () => void }) => {
                         </label>
                     </div>
                 </div>
+            </div>
+            <div className="section updates">
+                <div className="title">Updates</div>
+                <div className="inner row">
+                    <div className="container">
+                        <div className="desc">
+                            <div className="subtitle">Check for updates</div>
+                            <div className="subdesc">Automatically check for new versions (once daily)</div>
+                        </div>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={playback.checkForUpdates}
+                                onChange={e => playback.setCheckForUpdates(e.target.checked)}
+                            ></input>
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                {playback.checkForUpdates && updateStatus && (
+                    <div className="inner row update-status">
+                        {updateStatus === 'checking' && (
+                            <div className="container">
+                                <div className="subdesc">
+                                    <div className="icon checking">
+                                        <SyncIcon size={14} />
+                                    </div>
+                                    <span className="text">Checking for updates...</span>
+                                </div>
+                            </div>
+                        )}
+                        {updateStatus === 'current' && (
+                            <div className="container">
+                                <div className="subdesc">
+                                    <div className="icon success">
+                                        <CheckIcon size={16} />
+                                    </div>
+                                    <span className="text">You're up to date (v{__VERSION__})</span>
+                                </div>
+                            </div>
+                        )}
+                        {updateStatus === 'available' && latestRelease && (
+                            <div className="container">
+                                <div className="subdesc">
+                                    <div className="icon available">
+                                        <BellFillIcon size={14} />
+                                    </div>
+                                    <span className="text">
+                                        Update available: {latestRelease.tag_name} <span className="divider">-</span>{' '}
+                                        <a
+                                            href={latestRelease.html_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="textlink"
+                                        >
+                                            Download
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                        {updateStatus === 'error' && (
+                            <div className="container">
+                                <div className="subdesc">
+                                    <div className="icon error">
+                                        <CloudOfflineIcon size={14} />
+                                    </div>
+                                    <span className="text">Unable to check for updates</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
             <div className="section about">
                 <div className="title">About</div>

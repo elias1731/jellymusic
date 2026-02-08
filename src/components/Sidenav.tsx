@@ -12,6 +12,7 @@ import { useScrollContext } from '../context/ScrollContext/ScrollContext'
 import { useSidenavContext } from '../context/SidenavContext/SidenavContext'
 import { useJellyfinPlaylistsList } from '../hooks/Jellyfin/useJellyfinPlaylistsList'
 import { useJellyfinSearch } from '../hooks/Jellyfin/useJellyfinSearch'
+import { useUpdateChecker } from '../hooks/useUpdateChecker'
 import { formatFileSize } from '../utils/formatFileSize'
 import { InlineLoader } from './InlineLoader'
 import './Sidenav.css'
@@ -30,6 +31,7 @@ import {
 export const Sidenav = (props: { username: string }) => {
     const playback = usePlaybackContext()
     const navigate = useNavigate()
+    const { updateStatus } = useUpdateChecker(playback.checkForUpdates)
     const searchInputRef = useRef<HTMLInputElement>(null)
     const { showSidenav, closeSidenav } = useSidenavContext()
 
@@ -251,10 +253,10 @@ export const Sidenav = (props: { username: string }) => {
                                                             item.Type === BaseItemKind.MusicArtist
                                                                 ? 'artist'
                                                                 : item.Type === BaseItemKind.MusicAlbum
-                                                                ? 'album'
-                                                                : item.Type === BaseItemKind.MusicGenre
-                                                                ? 'genre'
-                                                                : item.Type?.toLowerCase()
+                                                                  ? 'album'
+                                                                  : item.Type === BaseItemKind.MusicGenre
+                                                                    ? 'genre'
+                                                                    : item.Type?.toLowerCase()
                                                         }/${
                                                             item.Type === BaseItemKind.MusicGenre
                                                                 ? encodeURIComponent(item.Name)
@@ -328,7 +330,7 @@ export const Sidenav = (props: { username: string }) => {
                             )}
                             {error && <div className="indicator error">{error}</div>}
                             {!loading && !error && playlists.length === 0 && (
-                                <div className="indicator info">No playlists found</div>
+                                <div className="indicator info">No playlists were found</div>
                             )}
                             <div className="container noSelect">
                                 {playlists.map(playlist => (
@@ -397,8 +399,18 @@ export const Sidenav = (props: { username: string }) => {
                                 </NavLink>
                             )}
 
-                            <NavLink to="/settings" className="icon settings" onClick={closeSidenav} title="Settings">
+                            <NavLink
+                                to="/settings"
+                                className="icon settings"
+                                onClick={closeSidenav}
+                                title={updateStatus === 'available' ? 'Settings - Update available!' : 'Settings'}
+                            >
                                 <GearIcon size={16} />
+                                {updateStatus === 'available' && (
+                                    <div className="update-checker">
+                                        <div className="dot" />
+                                    </div>
+                                )}
                             </NavLink>
                         </div>
                     </div>

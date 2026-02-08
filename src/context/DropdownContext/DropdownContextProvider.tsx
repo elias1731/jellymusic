@@ -603,7 +603,7 @@ const useInitialState = () => {
                         >
                             <div className="dropdown-menu">
                                 <DropdownItem>
-                                    <div className="playlist-input-container">
+                                    <div className="playlist-input-container rename-item">
                                         <input
                                             value={renamePlaylistName}
                                             onChange={handleRenameInputChange}
@@ -743,7 +743,7 @@ const useInitialState = () => {
                         >
                             <div className="dropdown-menu">
                                 <DropdownItem>
-                                    <div className="playlist-input-container">
+                                    <div className="playlist-input-container new-item">
                                         <input
                                             value={playlistName}
                                             onChange={handleInputChange}
@@ -812,8 +812,8 @@ const useInitialState = () => {
                             const containerItem = context.customContainer
                                 ? await api.createCustomContainerMediaItem(context.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
-                                ? undefined
-                                : context.item
+                                  ? undefined
+                                  : context.item
                             removeFromDownloads(await expandItems(context.item, context.customContainer), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
@@ -833,8 +833,8 @@ const useInitialState = () => {
                             const containerItem = context.customContainer
                                 ? await api.createCustomContainerMediaItem(context.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
-                                ? undefined
-                                : context.item
+                                  ? undefined
+                                  : context.item
                             addToDownloads(await expandItems(context.item, context.customContainer), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
@@ -949,7 +949,7 @@ const useInitialState = () => {
             } else if (subDropdown.type === 'rename-playlist') {
                 items = [
                     <DropdownItem key="rename-playlist-input-item">
-                        <div className="playlist-input-container">
+                        <div className="playlist-input-container rename-item-responsive">
                             <input
                                 value={renamePlaylistName}
                                 onChange={handleRenameInputChange}
@@ -1108,14 +1108,14 @@ const useInitialState = () => {
                                     context.item.Type === BaseItemKind.Audio
                                         ? 'track'
                                         : context.item.Type === BaseItemKind.MusicAlbum
-                                        ? 'album'
-                                        : context.item.Type === BaseItemKind.MusicArtist
-                                        ? 'artist'
-                                        : context.item.Type === BaseItemKind.Playlist
-                                        ? 'playlist'
-                                        : context.item.Type === BaseItemKind.MusicGenre
-                                        ? 'genre'
-                                        : 'unknown'
+                                          ? 'album'
+                                          : context.item.Type === BaseItemKind.MusicArtist
+                                            ? 'artist'
+                                            : context.item.Type === BaseItemKind.Playlist
+                                              ? 'playlist'
+                                              : context.item.Type === BaseItemKind.MusicGenre
+                                                ? 'genre'
+                                                : 'unknown'
                                 }`}
                             >
                                 <Squircle
@@ -1169,12 +1169,12 @@ const useInitialState = () => {
                                                 {context.item.Type === BaseItemKind.Audio
                                                     ? context.item.Artists?.join(', ') || 'Unknown Artist'
                                                     : context.item.Type === BaseItemKind.MusicAlbum
-                                                    ? context.item.AlbumArtist || 'Unknown Artist'
-                                                    : context.item.Type === BaseItemKind.Playlist
-                                                    ? `${context.item.ChildCount || 0} Track${
-                                                          context.item.ChildCount === 1 ? '' : 's'
-                                                      }`
-                                                    : 'Unknown'}
+                                                      ? context.item.AlbumArtist || 'Unknown Artist'
+                                                      : context.item.Type === BaseItemKind.Playlist
+                                                        ? `${context.item.ChildCount || 0} Track${
+                                                              context.item.ChildCount === 1 ? '' : 's'
+                                                          }`
+                                                        : 'Unknown'}
                                             </div>
                                         )}
                                 </div>

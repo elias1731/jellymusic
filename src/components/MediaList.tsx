@@ -412,12 +412,12 @@ export const MediaList = ({
                 {type === 'song'
                     ? 'No tracks were found'
                     : type === 'album'
-                    ? 'No albums were found'
-                    : type === 'artist'
-                    ? 'No artists were found'
-                    : type === 'playlist'
-                    ? 'No playlists were found'
-                    : 'No genres were found'}
+                      ? 'No albums were found'
+                      : type === 'artist'
+                        ? 'No artists were found'
+                        : type === 'playlist'
+                          ? 'No playlists were found'
+                          : 'No genres were found'}
             </div>
         )
     }

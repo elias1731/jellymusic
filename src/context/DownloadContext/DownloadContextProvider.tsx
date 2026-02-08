@@ -127,8 +127,8 @@ const useInitialState = () => {
                     item.offlineState === 'downloading'
                         ? undefined
                         : item.offlineState === 'deleting'
-                        ? 'downloaded'
-                        : item.offlineState,
+                          ? 'downloaded'
+                          : item.offlineState,
             }))
         })
 
@@ -147,6 +147,7 @@ const useInitialState = () => {
             const signal = abortControllerRef.current.signal
 
             const { mediaItem, action } = next
+            let shouldRemoveFromQueue = true
 
             try {
                 if (action === 'download') {
@@ -224,14 +225,22 @@ const useInitialState = () => {
             } catch (error) {
                 console.error(`Task failed for ${action} id=${mediaItem.Id}`, error)
 
-                if (action === 'download') {
-                    patchMediaItem(mediaItem.Id, item => ({ ...item, offlineState: undefined }))
-                } else if (action === 'remove') {
-                    patchMediaItem(mediaItem.Id, item => ({ ...item, offlineState: 'downloaded' }))
+                // If aborted due to removal from queue, don't update state
+                if (signal.aborted && signal.reason === 'removeFromQueue') {
+                    shouldRemoveFromQueue = false
+                } else {
+                    if (action === 'download') {
+                        patchMediaItem(mediaItem.Id, item => ({ ...item, offlineState: undefined }))
+                    } else if (action === 'remove') {
+                        patchMediaItem(mediaItem.Id, item => ({ ...item, offlineState: 'downloaded' }))
+                    }
                 }
             } finally {
                 abortControllerRef.current = null
-                setQueue(prev => prev.slice(1))
+                // Only remove from queue if it wasn't manually removed
+                if (shouldRemoveFromQueue) {
+                    setQueue(prev => prev.slice(1))
+                }
                 processingRef.current = false
             }
         }

@@ -106,7 +106,9 @@
     height: 100%;
     border-radius: 6px;
     background-color: var(--overlay-bg);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show thumbnail overlay when hovering a track/playlist/item */
@@ -134,7 +136,9 @@
 .media-list .media-item > .media-state > .overlay > .container > .play {
     position: absolute;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide play button when a track is playing or paused */
@@ -165,7 +169,9 @@
     opacity: 0;
     visibility: hidden;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide pause button when a track is paused */
@@ -195,7 +201,9 @@
     position: absolute;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show play-state animation when a track is playing or paused */
@@ -442,7 +450,9 @@
     will-change: transform;
     transform: translateZ(0);
     background-color: var(--font-color-tertiary);
-    transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+    transition:
+        background-color 0.2s ease-out,
+        transform 0.2s ease-out;
 }
 
 .media-list .media-item > .media-indicators > .draggable:hover > .grid > .dot {

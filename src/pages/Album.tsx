@@ -47,14 +47,17 @@ export const Album = () => {
     const totalPlays = tracks.reduce((total, track) => total + (track.UserData?.PlayCount || 0), 0)
     const trackCount = album.ChildCount || tracks.length
 
-    const tracksByDisc = tracks.reduce((acc, track) => {
-        const discNumber = track.ParentIndexNumber || 1
-        if (!acc[discNumber]) {
-            acc[discNumber] = []
-        }
-        acc[discNumber].push(track)
-        return acc
-    }, {} as Record<number, MediaItem[]>)
+    const tracksByDisc = tracks.reduce(
+        (acc, track) => {
+            const discNumber = track.ParentIndexNumber || 1
+            if (!acc[discNumber]) {
+                acc[discNumber] = []
+            }
+            acc[discNumber].push(track)
+            return acc
+        },
+        {} as Record<number, MediaItem[]>
+    )
 
     const sortedTracks = Object.keys(tracksByDisc)
         .sort((a, b) => Number(a) - Number(b))

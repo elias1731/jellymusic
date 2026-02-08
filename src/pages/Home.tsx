@@ -22,9 +22,11 @@ export const Home = () => {
                         <div className="section_title">Recently Played</div>
                         <div className="section_desc">Songs you queued up lately</div>
                     </div>
-                    <Link to="/recently" className="see-more noSelect">
-                        See more
-                    </Link>
+                    {recentlyPlayed && recentlyPlayed.length >= 12 && (
+                        <Link to="/recently" className="see-more noSelect">
+                            See more
+                        </Link>
+                    )}
                 </div>
                 <MediaList
                     items={recentlyPlayed}
@@ -40,9 +42,11 @@ export const Home = () => {
                         <div className="section_title">Frequently Played</div>
                         <div className="section_desc">Songs you listen to often</div>
                     </div>
-                    <Link to="/frequently" className="see-more noSelect">
-                        See more
-                    </Link>
+                    {frequentlyPlayed && frequentlyPlayed.length >= 12 && (
+                        <Link to="/frequently" className="see-more noSelect">
+                            See more
+                        </Link>
+                    )}
                 </div>
                 <MediaList
                     items={frequentlyPlayed}
@@ -58,6 +62,11 @@ export const Home = () => {
                         <div className="section_title">Recently Added</div>
                         <div className="section_desc">Albums recently added to the Library</div>
                     </div>
+                    {recentlyAdded && recentlyAdded.length >= 12 && (
+                        <Link to="/albums?sort=Added" className="see-more noSelect">
+                            See more
+                        </Link>
+                    )}
                 </div>
                 <MediaList
                     items={recentlyAdded}
@@ -73,9 +82,11 @@ export const Home = () => {
                         <div className="section_title">Explore Genres</div>
                         <div className="section_desc">New genres from recently added media</div>
                     </div>
-                    <Link to="/genres" className="see-more noSelect">
-                        See more
-                    </Link>
+                    {recentGenres && recentGenres.length >= 12 && (
+                        <Link to="/genres" className="see-more noSelect">
+                            See more
+                        </Link>
+                    )}
                 </div>
                 <MediaList
                     items={recentGenres}

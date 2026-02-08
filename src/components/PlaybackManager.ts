@@ -49,6 +49,11 @@ export const usePlaybackManager = ({ initialVolume, clearOnLogout }: PlaybackMan
         [warnBeforeOverwriteQueue]
     )
 
+    // Update Checker Setting
+    const [checkForUpdates, setCheckForUpdates] = useState(localStorage.getItem('checkForUpdates') === 'on')
+
+    useEffect(() => localStorage.setItem('checkForUpdates', checkForUpdates ? 'on' : 'off'), [checkForUpdates])
+
     const [currentTrackIndex, setCurrentTrackIndex] = useState({
         index: localStorage.getItem('currentTrackIndex') ? Number(localStorage.getItem('currentTrackIndex')) : -1,
     })
@@ -1147,6 +1152,8 @@ export const usePlaybackManager = ({ initialVolume, clearOnLogout }: PlaybackMan
         setRememberFilters,
         warnBeforeOverwriteQueue,
         setWarnBeforeOverwriteQueue,
+        checkForUpdates,
+        setCheckForUpdates,
         maxWidth,
         setMaxWidth,
         markAsManuallyAdded,

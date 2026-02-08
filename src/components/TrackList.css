@@ -36,7 +36,10 @@
     font-weight: 500;
     color: var(--font-color-tertiary);
     margin-top: 1px;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out,
+        transform 0.2s ease-out;
 }
 
 .tracklist > .track-item.most-played > .track-indicator > .track-number {
@@ -63,7 +66,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show track-state when a track is hovered/playing/paused */
@@ -78,7 +83,9 @@
 .tracklist > .track-item > .track-indicator > .track-state > .play {
     position: absolute;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide play button when a track is playing or paused */
@@ -109,7 +116,9 @@
     opacity: 0;
     visibility: hidden;
     cursor: pointer;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide pause button when a track is paused */
@@ -140,7 +149,9 @@
     margin-bottom: 6px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show play-state animation when the track is playing or paused */
@@ -230,7 +241,10 @@
     flex-grow: 1;
     margin: 0 10px;
     border-bottom: 1px dashed var(--border-color);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, border-color 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out,
+        border-color 0.2s ease-out;
 }
 
 .tracklist > .track-item:hover > .track-details > .container > .name::after {

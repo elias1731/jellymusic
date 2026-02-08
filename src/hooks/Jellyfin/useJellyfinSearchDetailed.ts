@@ -41,11 +41,11 @@ export const useJellyfinSearchDetailed = (query: string | undefined) => {
 
             if (navigator.onLine) {
                 const [artistItems, albumItems, playlistItems, songs, genreItems] = await Promise.all([
-                    api.searchArtists(query, 10),
-                    api.searchAlbumsDetailed(query, 10),
-                    api.searchPlaylistsDetailed(query, 10),
-                    api.fetchSongs(query, 10),
-                    api.searchGenres(query, 10),
+                    api.searchArtists(query, 12),
+                    api.searchAlbumsDetailed(query, 12),
+                    api.searchPlaylistsDetailed(query, 12),
+                    api.fetchSongs(query, 12),
+                    api.searchGenres(query, 12),
                 ])
 
                 const artists = artistItems.map(artist => ({

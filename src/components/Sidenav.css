@@ -1,7 +1,9 @@
 .sidenav {
     position: relative;
     flex-basis: 200px;
-    transition: flex-basis 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+    transition:
+        flex-basis 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.2s ease;
 }
 
 .sidenav > .sidenav_wrapper {
@@ -18,7 +20,9 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     transform: translate(0);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+    transition:
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.2s ease;
 }
 
 /* Isolate volume scroll */
@@ -109,7 +113,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     margin: 0 12px;
     padding: 7px 12px;
     border-radius: 8px;
-    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    transition:
+        background-color 0.2s ease-out,
+        color 0.2s ease-out;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > ul > li > a:hover {
@@ -171,7 +177,10 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     cursor: pointer;
     padding: 7px;
     fill: var(--font-color-secondary);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, fill 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out,
+        fill 0.2s ease-out;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > .search > .search_header > .input_container > .search-clear:hover {
@@ -206,7 +215,10 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     border-radius: 6px;
     color: var(--font-color);
     fill: var(--font-color);
-    transition: background-color 0.2s ease-out, color 0.2s ease-out, fill 0.2s ease-out;
+    transition:
+        background-color 0.2s ease-out,
+        color 0.2s ease-out,
+        fill 0.2s ease-out;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > .search > .search_results > .results > .result:hover {
@@ -253,7 +265,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     > .icon
     > .song-icon {
     position: absolute;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide song icon on hover/playing/paused */
@@ -311,7 +325,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-image: url(/play.circle.fill.svg);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 .sidenav
@@ -388,7 +404,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-image: url(/pause.circle.fill.svg);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Hide pause button when a track is paused */
@@ -435,7 +453,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     position: absolute;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition:
+        opacity 0.2s ease-out,
+        visibility 0.2s ease-out;
 }
 
 /* Show play-state animation when a track is playing or paused */
@@ -646,7 +666,7 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
 .sidenav > .sidenav_wrapper > .sidenav_content > .playlists > .indicator {
     font-size: 0.725rem;
     font-weight: 500;
-    margin: 20px 14px;
+    margin: 24px 18px;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > .playlists > .indicator.error {
@@ -662,7 +682,9 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     margin-bottom: 2px;
     padding: 6px 8px;
     border-radius: 6px;
-    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    transition:
+        background-color 0.2s ease-out,
+        color 0.2s ease-out;
 }
 
 .sidenav > .sidenav_wrapper > .sidenav_content > .playlists > .container > .playlist:hover {
@@ -808,6 +830,47 @@ html.winOS .sidenav > .sidenav_wrapper > .sidenav_footer {
     }
     100% {
         clip-path: inset(100% 0 0 0);
+    }
+}
+
+.sidenav > .sidenav_wrapper > .sidenav_footer > .account > .actions > .icon.settings > .update-checker {
+    position: absolute;
+    top: -2px;
+    right: 1px;
+    padding: 2px;
+    border-radius: 20px;
+    background-color: var(--bg-color-secondary);
+    transition: background-color 0.2s ease-out;
+    pointer-events: none;
+}
+
+.sidenav > .sidenav_wrapper > .sidenav_footer > .account > .actions > .icon.settings:hover .update-checker {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.sidenav > .sidenav_wrapper > .sidenav_footer > .account > .actions > .icon.settings > .update-checker > .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 20px;
+    background-color: var(--brand-color);
+    transform: scale(1);
+    animation: dotPulseAnimation 2s infinite;
+}
+
+@keyframes dotPulseAnimation {
+    0% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 var(--brand-color);
+    }
+
+    80% {
+        transform: scale(1);
+        box-shadow: 0 0 0 7px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     }
 }
 
