@@ -26,21 +26,23 @@ export const useJellyfinSearch = (searchQuery: string) => {
             }
 
             if (navigator.onLine) {
-                // Fetch artists from /Artists endpoint
-                const [artistResponse, itemsResponse, genreResponse] = await Promise.all([
-                    api.searchArtists(debouncedSearchQuery, 20),
-                    api.searchItems(debouncedSearchQuery, 40),
-                    api.searchGenres(debouncedSearchQuery, 20),
-                ])
+                // Fetch each type
+                const [artistResponse, albumResponse, playlistResponse, songResponse, genreResponse] =
+                    await Promise.all([
+                        api.searchArtists(debouncedSearchQuery, 4),
+                        api.searchAlbumsDetailed(debouncedSearchQuery, 4),
+                        api.searchPlaylistsDetailed(debouncedSearchQuery, 4),
+                        api.fetchSongs(debouncedSearchQuery, 6),
+                        api.searchGenres(debouncedSearchQuery, 4),
+                    ])
 
-                // Fetch songs, albums, and playlists from /Items endpoint
-                const artists = artistResponse.slice(0, 4)
-                const songs = itemsResponse.filter(item => item.Type === 'Audio').slice(0, 6)
-                const albums = itemsResponse.filter(item => item.Type === 'MusicAlbum').slice(0, 4)
-                const playlists = itemsResponse.filter(item => item.Type === 'Playlist').slice(0, 4)
-                const genres = genreResponse.slice(0, 4)
-
-                const limitedResults = [...songs, ...artists, ...albums, ...playlists, ...genres]
+                const limitedResults = [
+                    ...songResponse,
+                    ...artistResponse,
+                    ...albumResponse,
+                    ...playlistResponse,
+                    ...genreResponse,
+                ]
                 return limitedResults
             } else {
                 // Use offline search when no network
