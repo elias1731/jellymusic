@@ -125,7 +125,9 @@ export const Favorites = () => {
                     items={items}
                     infiniteData={infiniteData}
                     isLoading={isLoading}
-                    type={jellyItemKind === 'MusicAlbum' ? 'album' : 'artist'}
+                    type={
+                        jellyItemKind === 'MusicAlbum' ? 'album' : jellyItemKind === 'Playlist' ? 'playlist' : 'artist'
+                    }
                     reviver={reviver}
                     loadMore={loadMore}
                     title={'Favorites'}
