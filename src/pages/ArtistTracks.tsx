@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { JELLYFIN_MAX_LIMIT } from '../api/jellyfin'
 import { JellyImg } from '../components/JellyImg'
 import { Loader } from '../components/Loader'
 import { DownloadIndicators } from '../components/MediaList'
@@ -52,7 +53,7 @@ export const ArtistTracks = () => {
             e,
             {
                 item: artist!,
-                // tracks: allTracks,
+                opt: { limit: JELLYFIN_MAX_LIMIT },
             },
             true,
             {

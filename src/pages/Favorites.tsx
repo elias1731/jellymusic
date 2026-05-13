@@ -27,7 +27,7 @@ export const Favorites = () => {
             return
         }
 
-        onContextMenu(e, { item: favoritesCustomItem, customContainer: 'favorites' }, true, {
+        onContextMenu(e, { item: favoritesCustomItem, opt: { customContainer: 'favorites' } }, true, {
             instant_mix: true,
             add_to_favorite: true,
             remove_from_favorite: true,

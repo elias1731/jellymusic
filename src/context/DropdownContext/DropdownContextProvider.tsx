@@ -20,7 +20,7 @@ import { DropdownItem } from './DropdownItem'
 export type IMenuItems = { [x in keyof IDropdownContext['menuItems']]?: boolean }
 export type IDropdownContext = ReturnType<typeof useInitialState>
 
-type IContext = { item: MediaItem; playlistId?: string; customContainer?: string }
+type IContext = { item: MediaItem; playlistId?: string; opt?: { customContainer?: string; limit?: number } }
 
 const useInitialState = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -145,12 +145,12 @@ const useInitialState = () => {
     )
 
     const expandItems = useCallback(
-        async (item: MediaItem, customContainer?: string) => {
+        async (item: MediaItem, opt?: { customContainer?: string; limit?: number }) => {
             if (item.Type === BaseItemKind.MusicAlbum) {
                 const tracks = await api.getAlbumDetails(item.Id)
                 return tracks.tracks
             } else if (item.Type === BaseItemKind.MusicArtist) {
-                const tracks = await api.getArtistDetails(item.Id)
+                const tracks = await api.getArtistDetails(item.Id, opt?.limit)
                 return tracks.tracks
             } else if (item.Type === BaseItemKind.Playlist) {
                 const tracks = await api.getPlaylistAllTracks(item.Id)
@@ -158,7 +158,7 @@ const useInitialState = () => {
             } else if (item.Type === BaseItemKind.MusicGenre) {
                 const genreTracks = await api.getGenreTracks(item.Name, 0, JELLYFIN_MAX_LIMIT)
                 return genreTracks
-            } else if (customContainer === 'favorites') {
+            } else if (opt?.customContainer === 'favorites') {
                 const favorites = await api.getFavoriteTracks(0, JELLYFIN_MAX_LIMIT)
                 return favorites
             } else {
@@ -174,7 +174,7 @@ const useInitialState = () => {
 
             if (e.key === 'Enter' && playlistName.trim()) {
                 const playlist = await createPlaylist(playlistName.trim())
-                await addItemsToPlaylist(await expandItems(context.item, context.customContainer), playlist.Id!)
+                await addItemsToPlaylist(await expandItems(context.item, context.opt), playlist.Id!)
                 setPlaylistName('')
                 closeDropdown()
             } else if (e.key === 'Escape') {
@@ -208,7 +208,7 @@ const useInitialState = () => {
                 setIsCreatingPlaylist(true)
                 try {
                     const playlist = await createPlaylist(playlistName.trim())
-                    await addItemsToPlaylist(await expandItems(context.item, context.customContainer), playlist.Id!)
+                    await addItemsToPlaylist(await expandItems(context.item, context.opt), playlist.Id!)
                     setPlaylistName('')
                     closeDropdown()
                 } finally {
@@ -418,7 +418,7 @@ const useInitialState = () => {
 
                     for (let trackIndex = 0; trackIndex < page.length; trackIndex++) {
                         if (trackCounter === insertionPoint) {
-                            const expandedItems = await expandItems(item, context.customContainer)
+                            const expandedItems = await expandItems(item, context.opt)
                             const markedItems = playback.markAsManuallyAdded(expandedItems)
 
                             return [
@@ -433,13 +433,13 @@ const useInitialState = () => {
                 }
 
                 if (insertionPoint >= trackCounter) {
-                    const expandedItems = await expandItems(item, context.customContainer)
+                    const expandedItems = await expandItems(item, context.opt)
                     const markedItems = playback.markAsManuallyAdded(expandedItems)
 
                     return [...pages.slice(0, pages.length - 1), [...pages[pages.length - 1], ...markedItems]]
                 }
 
-                const expandedItems = await expandItems(item, context.customContainer)
+                const expandedItems = await expandItems(item, context.opt)
                 const markedItems = playback.markAsManuallyAdded(expandedItems)
 
                 return [
@@ -461,7 +461,7 @@ const useInitialState = () => {
         async (item: MediaItem) => {
             if (!context) return
 
-            const expandedItems = await expandItems(item, context.customContainer)
+            const expandedItems = await expandItems(item, context.opt)
             const markedItems = playback.markAsManuallyAdded(expandedItems)
 
             await playback.updateCurrentPlaylist(async pages => [
@@ -774,7 +774,7 @@ const useInitialState = () => {
 
                                             closeDropdown()
                                             await addItemsToPlaylist(
-                                                await expandItems(context.item, context.customContainer),
+                                                await expandItems(context.item, context.opt),
                                                 playlist.Id
                                             )
                                         }}
@@ -809,12 +809,12 @@ const useInitialState = () => {
                             if (!context) return
 
                             closeDropdown()
-                            const containerItem = context.customContainer
-                                ? await api.createCustomContainerMediaItem(context.customContainer)
+                            const containerItem = context.opt?.customContainer
+                                ? await api.createCustomContainerMediaItem(context.opt.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
                                   ? undefined
                                   : context.item
-                            removeFromDownloads(await expandItems(context.item, context.customContainer), containerItem)
+                            removeFromDownloads(await expandItems(context.item, context.opt), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
                     >
@@ -830,12 +830,12 @@ const useInitialState = () => {
                             if (!context) return
 
                             closeDropdown()
-                            const containerItem = context.customContainer
-                                ? await api.createCustomContainerMediaItem(context.customContainer)
+                            const containerItem = context.opt?.customContainer
+                                ? await api.createCustomContainerMediaItem(context.opt.customContainer)
                                 : context.item.Type === BaseItemKind.Audio
                                   ? undefined
                                   : context.item
-                            addToDownloads(await expandItems(context.item, context.customContainer), containerItem)
+                            addToDownloads(await expandItems(context.item, context.opt), containerItem)
                         }}
                         onMouseEnter={closeSubDropdown}
                     >
@@ -936,10 +936,7 @@ const useInitialState = () => {
                                 if (!context) return
 
                                 closeDropdown()
-                                await addItemsToPlaylist(
-                                    await expandItems(context.item, context.customContainer),
-                                    playlist.Id
-                                )
+                                await addItemsToPlaylist(await expandItems(context.item, context.opt), playlist.Id)
                             }}
                         >
                             {playlist.Name}
@@ -984,7 +981,7 @@ const useInitialState = () => {
                                 context?.item.Type === BaseItemKind.MusicAlbum ||
                                 context?.item.Type === BaseItemKind.MusicArtist ||
                                 context?.item.Type === BaseItemKind.MusicGenre ||
-                                context?.customContainer === 'favorites'),
+                                context?.opt?.customContainer === 'favorites'),
                         node: menuItems.next,
                     },
                     {
@@ -994,7 +991,7 @@ const useInitialState = () => {
                                 context?.item.Type === BaseItemKind.MusicAlbum ||
                                 context?.item.Type === BaseItemKind.MusicArtist ||
                                 context?.item.Type === BaseItemKind.MusicGenre ||
-                                context?.customContainer === 'favorites'),
+                                context?.opt?.customContainer === 'favorites'),
                         node: menuItems.add_to_queue,
                     },
                     {
@@ -1005,7 +1002,7 @@ const useInitialState = () => {
                                 context?.item.Type === BaseItemKind.MusicAlbum ||
                                 context?.item.Type === BaseItemKind.MusicArtist ||
                                 context?.item.Type === BaseItemKind.MusicGenre ||
-                                context?.customContainer === 'favorites'),
+                                context?.opt?.customContainer === 'favorites'),
                         node: menuItems.remove_from_queue,
                     },
                     {
@@ -1051,7 +1048,7 @@ const useInitialState = () => {
                                 context?.item.Type === BaseItemKind.MusicAlbum ||
                                 context?.item.Type === BaseItemKind.MusicArtist ||
                                 context?.item.Type === BaseItemKind.MusicGenre ||
-                                context?.customContainer === 'favorites'),
+                                context?.opt?.customContainer === 'favorites'),
                         node: menuItems.add_to_playlist,
                     },
                     {
@@ -1072,7 +1069,7 @@ const useInitialState = () => {
                                 context?.item.Type === BaseItemKind.MusicArtist ||
                                 context?.item.Type === BaseItemKind.Playlist ||
                                 context?.item.Type === BaseItemKind.MusicGenre ||
-                                !!context?.customContainer),
+                                !!context?.opt),
                         node: menuItems.download_song,
                     },
                 ],
