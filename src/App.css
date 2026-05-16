@@ -1189,7 +1189,8 @@ body.lockscroll {
 .genre-page > .empty,
 .playlist-page > .empty,
 .lyrics-page > .empty,
-.instant-mix-page > .empty {
+.instant-mix-page > .empty,
+.artist-tracks-page > .empty {
     font-size: 0.85rem;
     margin: 4px 0;
 }

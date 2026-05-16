@@ -1,17 +1,19 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { JELLYFIN_MAX_LIMIT } from '../api/jellyfin'
+import { InlineLoader } from '../components/InlineLoader'
 import { JellyImg } from '../components/JellyImg'
 import { Loader } from '../components/Loader'
 import { DownloadIndicators } from '../components/MediaList'
 import { PlaylistTrackList } from '../components/PlaylistTrackList'
 import { Squircle } from '../components/Squircle'
-import { MoreIcon } from '../components/SvgIcons'
+import { MoreIcon, SearchClearIcon, SearchIcon } from '../components/SvgIcons'
 import { useDropdownContext } from '../context/DropdownContext/DropdownContext'
 import { usePageTitle } from '../context/PageTitleContext/PageTitleContext'
 import { usePlaybackContext } from '../context/PlaybackContext/PlaybackContext'
 import { useJellyfinArtistTracksData } from '../hooks/Jellyfin/Infinite/useJellyfinArtistTracksData'
 import { useJellyfinArtistData } from '../hooks/Jellyfin/useJellyfinArtistData'
+import { useJellyfinSearch } from '../hooks/Jellyfin/useJellyfinSearch'
 import { formatDurationReadable } from '../utils/formatDurationReadable'
 import './ArtistTracks.css'
 
@@ -29,6 +31,21 @@ export const ArtistTracks = () => {
     } = useJellyfinArtistTracksData(artistId!)
     const { setPageTitle } = usePageTitle()
     const { isOpen, selectedItem, onContextMenu } = useDropdownContext()
+
+    const [searchQuery, setSearchQuery] = useState('')
+    const { searchResults, searchLoading } = useJellyfinSearch(searchQuery)
+
+    const filteredTracks = searchQuery
+        ? searchResults.filter(
+              item =>
+                  item.Type === 'Audio' &&
+                  (item.ArtistItems?.some(a => a.Id === artistId) || item.AlbumArtists?.some(a => a.Id === artistId))
+          )
+        : allTracks
+
+    const handleClearSearch = () => {
+        setSearchQuery('')
+    }
 
     useEffect(() => {
         if (artist) {
@@ -98,8 +115,12 @@ export const ArtistTracks = () => {
                             <div
                                 className="play-artist"
                                 onClick={() => {
+                                    const tracksToPlay = searchQuery ? filteredTracks : allTracks
                                     if (
-                                        playback.setCurrentPlaylistSimple({ playlist: allTracks, title: artist.Name })
+                                        playback.setCurrentPlaylistSimple({
+                                            playlist: tracksToPlay,
+                                            title: artist.Name,
+                                        })
                                     ) {
                                         playback.playTrack(0)
                                     }
@@ -110,13 +131,41 @@ export const ArtistTracks = () => {
                             </div>
                         </div>
                         <div className="secondary">
-                            <DownloadIndicators offlineState={artist.offlineState} size={16} itemId={artist.Id} />
-                            <div
-                                className={`more ${isOpen && selectedItem?.Id === artist?.Id ? 'active' : ''}`}
-                                onClick={handleMoreClick}
-                                title="More"
-                            >
-                                <MoreIcon width={14} height={14} />
+                            <div className="input_container">
+                                {!searchLoading && !searchQuery && (
+                                    <div className="search-icon noSelect">
+                                        <SearchIcon width={12} height={12} />
+                                    </div>
+                                )}
+
+                                {searchLoading && (
+                                    <div className="search-loading noSelect">
+                                        <InlineLoader />
+                                    </div>
+                                )}
+
+                                {!searchLoading && searchQuery && (
+                                    <div className="search-clear" onClick={handleClearSearch}>
+                                        <SearchClearIcon width={12} height={12} />
+                                    </div>
+                                )}
+
+                                <input
+                                    type="search"
+                                    placeholder="Filter tracks"
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                    //onChange={handleSearchChange}
+                                    //ref={searchInputRef}
+                                />
+                                <DownloadIndicators offlineState={artist.offlineState} size={14} itemId={artist.Id} />
+                                <div
+                                    className={`more ${isOpen && selectedItem?.Id === artist?.Id ? 'active' : ''}`}
+                                    onClick={handleMoreClick}
+                                    title="More"
+                                >
+                                    <MoreIcon width={14} height={14} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,13 +173,13 @@ export const ArtistTracks = () => {
             </div>
 
             <PlaylistTrackList
-                tracks={allTracks}
-                infiniteData={infiniteData}
-                isLoading={isLoading}
+                tracks={filteredTracks}
+                infiniteData={searchQuery ? undefined : infiniteData}
+                isLoading={searchQuery ? searchLoading : isLoading}
                 showType="album"
                 title={artist ? `${artist.Name}'s Tracks` : 'Artist Tracks'}
                 reviver={reviver}
-                loadMore={loadMore}
+                loadMore={searchQuery ? undefined : loadMore}
             />
         </div>
     )
