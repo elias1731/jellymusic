@@ -121,10 +121,61 @@
 .favorites-page > .favorites-header > .favorites-details > .actions > .secondary {
     display: flex;
     align-items: center;
-    gap: 6px;
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .download-state {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: var(--bg-color-secondary);
+}
+
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > input {
+    font-size: 0.7rem;
+    font-weight: 500;
+    width: 100%;
+    max-width: 112px;
+    padding: 7px 0 7px 28px;
+    background-color: rgba(0, 0, 0, 0);
+    text-overflow: ellipsis;
+}
+
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .search-icon {
+    position: absolute;
+    left: 8px;
+    pointer-events: none;
+    fill: var(--font-color-tertiary);
+}
+
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .search-clear {
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+    padding: 8px;
+    fill: var(--font-color-secondary);
+}
+
+.favorites-page
+    > .favorites-header
+    > .favorites-details
+    > .actions
+    > .secondary
+    > .input_container
+    > .search-clear:hover {
+    fill: var(--font-color);
+}
+
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .search-loading {
+    position: absolute;
+    left: 0;
+    padding: 8px;
+}
+
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .download-state {
     fill: var(--font-color-tertiary);
 }
 
@@ -133,6 +184,7 @@
     > .favorites-details
     > .actions
     > .secondary
+    > .input_container
     > .download-state
     > .icon.downloading.active-sync
     > svg
@@ -153,7 +205,7 @@
     }
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more {
     cursor: pointer;
     padding: 7px;
     border-radius: 20px;
@@ -161,20 +213,35 @@
     transition: background-color 0.2s ease-out;
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more:hover {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more:hover {
     background-color: var(--bg-color-tertiary);
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more.active {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more.active {
     background-color: var(--bg-color-tertiary);
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more > svg {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more > svg {
     fill: var(--brand-color);
 }
 
 /* Responsive */
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 480px) {
+    .favorites-page > .favorites-header > .favorites-details > .actions > .primary > .play-playlist {
+        padding: 8px 16px;
+        border-radius: 20px;
+    }
+
+    .favorites-page > .favorites-header > .favorites-details > .actions > .primary > .play-playlist > .play-icon {
+        margin-right: unset;
+    }
+
+    .favorites-page > .favorites-header > .favorites-details > .actions > .primary > .play-playlist > .text {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 360px) {
     .favorites-page > .favorites-header {
         flex-direction: column;
         gap: 14px;
