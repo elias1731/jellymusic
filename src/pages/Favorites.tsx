@@ -135,7 +135,7 @@ export const Favorites = () => {
                                     />
                                     <DownloadIndicators
                                         offlineState={favoritesCustomItem?.offlineState}
-                                        size={12}
+                                        size={14}
                                         itemId={favoritesCustomItem?.Id}
                                     />
                                     <div
