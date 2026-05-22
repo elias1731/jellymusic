@@ -49,10 +49,10 @@ export const Playlist = () => {
     }, [playlistData, setPageTitle])
 
     const [searchQuery, setSearchQuery] = useState('')
-    const { /*searchResults,*/ searchLoading } = useJellyfinSearch(searchQuery)
+    const { searchResults, searchLoading } = useJellyfinSearch(searchQuery)
 
     const filteredTracks = searchQuery
-        ? tracks.filter(item => item.Type === 'Audio' && item.Name?.toLowerCase().includes(searchQuery.toLowerCase()))
+        ? searchResults.filter(item => item.Type === 'Audio' && (item.ParentId === playlistId || item.PlaylistItemId))
         : tracks
 
     const handleClearSearch = () => {

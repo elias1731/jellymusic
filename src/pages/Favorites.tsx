@@ -25,7 +25,9 @@ export const Favorites = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const { searchResults, searchLoading } = useJellyfinSearch(searchQuery)
 
-    const filteredTracks = searchQuery ? searchResults.filter(item => item.Type === 'Audio') : items
+    const filteredTracks = searchQuery
+        ? searchResults.filter(item => item.Type === 'Audio' && item.UserData?.IsFavorite === true)
+        : items
 
     const handleClearSearch = () => {
         setSearchQuery('')
