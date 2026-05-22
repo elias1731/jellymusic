@@ -1,16 +1,18 @@
 import { HeartFillIcon, HeartIcon } from '@primer/octicons-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { InlineLoader } from '../components/InlineLoader'
 import { JellyImg } from '../components/JellyImg'
 import { Loader } from '../components/Loader'
 import { DownloadIndicators } from '../components/MediaList'
 import { PlaylistTrackList } from '../components/PlaylistTrackList'
 import { Squircle } from '../components/Squircle'
-import { MoreIcon } from '../components/SvgIcons'
+import { MoreIcon, SearchClearIcon, SearchIcon } from '../components/SvgIcons'
 import { useDropdownContext } from '../context/DropdownContext/DropdownContext'
 import { usePageTitle } from '../context/PageTitleContext/PageTitleContext'
 import { usePlaybackContext } from '../context/PlaybackContext/PlaybackContext'
 import { useJellyfinPlaylistData } from '../hooks/Jellyfin/Infinite/useJellyfinPlaylistData'
+import { useJellyfinSearch } from '../hooks/Jellyfin/useJellyfinSearch'
 import { useFavorites } from '../hooks/useFavorites'
 import { formatDate } from '../utils/formatDate'
 import { formatDurationReadable } from '../utils/formatDurationReadable'
@@ -45,6 +47,17 @@ export const Playlist = () => {
             setPageTitle('')
         }
     }, [playlistData, setPageTitle])
+
+    const [searchQuery, setSearchQuery] = useState('')
+    const { /*searchResults,*/ searchLoading } = useJellyfinSearch(searchQuery)
+
+    const filteredTracks = searchQuery
+        ? tracks.filter(item => item.Type === 'Audio' && item.Name?.toLowerCase().includes(searchQuery.toLowerCase()))
+        : tracks
+
+    const handleClearSearch = () => {
+        setSearchQuery('')
+    }
 
     if (isLoading && tracks.length === 0) {
         return <Loader />
@@ -95,9 +108,10 @@ export const Playlist = () => {
                             <div
                                 className="play-playlist"
                                 onClick={() => {
+                                    const tracksToPlay = searchQuery ? filteredTracks : tracks
                                     if (
                                         playback.setCurrentPlaylistSimple({
-                                            playlist: tracks,
+                                            playlist: tracksToPlay,
                                             title: playlistData.Name,
                                         })
                                     ) {
@@ -133,17 +147,45 @@ export const Playlist = () => {
                             </div>
                         </div>
                         <div className="secondary">
-                            <DownloadIndicators
-                                offlineState={playlistData.offlineState}
-                                size={16}
-                                itemId={playlistData.Id}
-                            />
-                            <div
-                                className={`more ${isOpen && selectedItem?.Id === playlistData?.Id ? 'active' : ''}`}
-                                onClick={handleMoreClick}
-                                title="More"
-                            >
-                                <MoreIcon width={14} height={14} />
+                            <div className="input_container">
+                                {!searchLoading && !searchQuery && (
+                                    <div className="search-icon noSelect">
+                                        <SearchIcon width={12} height={12} />
+                                    </div>
+                                )}
+
+                                {searchLoading && (
+                                    <div className="search-loading noSelect">
+                                        <InlineLoader />
+                                    </div>
+                                )}
+
+                                {!searchLoading && searchQuery && (
+                                    <div className="search-clear" onClick={handleClearSearch}>
+                                        <SearchClearIcon width={12} height={12} />
+                                    </div>
+                                )}
+
+                                <input
+                                    type="search"
+                                    placeholder="Filter tracks"
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                    //onChange={handleSearchChange}
+                                    //ref={searchInputRef}
+                                />
+                                <DownloadIndicators
+                                    offlineState={playlistData.offlineState}
+                                    size={16}
+                                    itemId={playlistData.Id}
+                                />
+                                <div
+                                    className={`more ${isOpen && selectedItem?.Id === playlistData?.Id ? 'active' : ''}`}
+                                    onClick={handleMoreClick}
+                                    title="More"
+                                >
+                                    <MoreIcon width={14} height={14} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,14 +193,14 @@ export const Playlist = () => {
             </div>
 
             <PlaylistTrackList
-                tracks={tracks}
-                infiniteData={infiniteData}
-                isLoading={isLoading}
+                tracks={filteredTracks}
+                infiniteData={searchQuery ? undefined : infiniteData}
+                isLoading={searchQuery ? searchLoading : isLoading}
                 showType="artist"
                 playlistId={playlistId}
                 title={playlistData ? playlistData.Name : 'Playlist'}
                 reviver={reviver}
-                loadMore={loadMore}
+                loadMore={searchQuery ? undefined : loadMore}
             />
         </div>
     )

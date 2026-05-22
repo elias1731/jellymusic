@@ -241,7 +241,7 @@
     }
 }
 
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 340px) {
     .favorites-page > .favorites-header {
         flex-direction: column;
         gap: 14px;

@@ -228,7 +228,7 @@
     }
 }
 
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 340px) {
     .artist-tracks-page > .artist-header {
         flex-direction: column;
         gap: 14px;
