@@ -135,16 +135,16 @@ export const Favorites = () => {
                                     />
                                     <DownloadIndicators
                                         offlineState={favoritesCustomItem?.offlineState}
-                                        size={14}
+                                        size={12}
                                         itemId={favoritesCustomItem?.Id}
                                     />
-                                    <div
-                                        className={`more ${isOpen ? 'active' : ''}`}
-                                        onClick={handleMoreClick}
-                                        title="More"
-                                    >
-                                        <MoreIcon width={14} height={14} />
-                                    </div>
+                                </div>
+                                <div
+                                    className={`more ${isOpen ? 'active' : ''}`}
+                                    onClick={handleMoreClick}
+                                    title="More"
+                                >
+                                    <MoreIcon width={14} height={14} />
                                 </div>
                             </div>
                         </div>

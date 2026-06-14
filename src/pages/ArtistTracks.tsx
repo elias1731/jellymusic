@@ -158,14 +158,14 @@ export const ArtistTracks = () => {
                                     //onChange={handleSearchChange}
                                     //ref={searchInputRef}
                                 />
-                                <DownloadIndicators offlineState={artist.offlineState} size={14} itemId={artist.Id} />
-                                <div
-                                    className={`more ${isOpen && selectedItem?.Id === artist?.Id ? 'active' : ''}`}
-                                    onClick={handleMoreClick}
-                                    title="More"
-                                >
-                                    <MoreIcon width={14} height={14} />
-                                </div>
+                                <DownloadIndicators offlineState={artist.offlineState} size={12} itemId={artist.Id} />
+                            </div>
+                            <div
+                                className={`more ${isOpen && selectedItem?.Id === artist?.Id ? 'active' : ''}`}
+                                onClick={handleMoreClick}
+                                title="More"
+                            >
+                                <MoreIcon width={14} height={14} />
                             </div>
                         </div>
                     </div>

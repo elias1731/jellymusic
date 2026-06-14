@@ -121,13 +121,13 @@
 .favorites-page > .favorites-header > .favorites-details > .actions > .secondary {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 4px;
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
@@ -138,10 +138,21 @@
     font-size: 0.7rem;
     font-weight: 500;
     width: 100%;
-    max-width: 112px;
-    padding: 7px 0 7px 28px;
+    max-width: 126px;
+    padding: 7px 8px 7px 28px;
     background-color: rgba(0, 0, 0, 0);
     text-overflow: ellipsis;
+}
+
+.favorites-page
+    > .favorites-header
+    > .favorites-details
+    > .actions
+    > .secondary
+    > .input_container:has(.download-state)
+    > input {
+    max-width: 114px;
+    padding: 7px 2px 7px 28px;
 }
 
 .favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .search-icon {
@@ -177,6 +188,7 @@
 
 .favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .download-state {
     fill: var(--font-color-tertiary);
+    margin-right: 8px;
 }
 
 .favorites-page
@@ -205,7 +217,7 @@
     }
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more {
     cursor: pointer;
     padding: 7px;
     border-radius: 20px;
@@ -213,15 +225,15 @@
     transition: background-color 0.2s ease-out;
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more:hover {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more:hover {
     background-color: var(--bg-color-tertiary);
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more.active {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more.active {
     background-color: var(--bg-color-tertiary);
 }
 
-.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .input_container > .more > svg {
+.favorites-page > .favorites-header > .favorites-details > .actions > .secondary > .more > svg {
     fill: var(--brand-color);
 }
 
