@@ -42,7 +42,7 @@ jobs:
                   cache: 'yarn'
 
             - name: Install dependencies and build
-              run: yarn && URL_BASE_PATH=/jelly-app/ yarn build && cp dist/index.html dist/404.html
+              run: yarn && URL_BASE_PATH=/radio/jmusic/ yarn build && cp dist/index.html dist/404.html
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
