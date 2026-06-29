@@ -41,6 +41,9 @@ jobs:
                   node-version: 20
                   cache: 'yarn'
 
+            - name: Install legacy dependencies
+              run: npm install -D @vitejs/plugin-legacy@7.2.1 core-js regenerator-runtime
+
             - name: Install dependencies and build
               run: yarn && URL_BASE_PATH=/jellymusic/ yarn build && cp dist/index.html dist/404.html
 
